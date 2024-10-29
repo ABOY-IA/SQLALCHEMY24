@@ -27,3 +27,4 @@ class Prix(Base):
     __tablename__ = "prix"
     prix_id = Column(Integer, primary_key=True)
     prix = Column(Integer)
+

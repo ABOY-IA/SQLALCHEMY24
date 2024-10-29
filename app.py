@@ -28,3 +28,48 @@ session.add(toto)
 session.add(fr)
 session.add(p1)
 session.commit()
+
+# Création d'une fonction pour ajouter de nouveaux utilisateurs
+def ajouter_utilisateur(name, pays, prix):
+    """
+    Ajoute un nouvel utilisateur à la base de données.
+    """
+    # Création des instances
+    new_user = Users(name=name)
+    new_pays = Pays(pays=pays)
+    new_prix = Prix(prix=prix)
+
+    # Ajout des instances à la session
+    session.add(new_user)
+    session.add(new_pays)
+    session.add(new_prix)
+
+    # Validation de la transaction
+    session.commit()
+
+# Utilisation de la fonction pour ajouter des nouveaux utilisateurs
+ajouter_utilisateur('tata', 'espagne', 20)
+ajouter_utilisateur('titi', 'italie', 30)
+ajouter_utilisateur('tutu', 'allemagne', 40)
+
+def mettre_a_jour_utilisateur(name_user, name_pays):
+    """Actualise l'utilisateur pour lui attribuer le pays spécifié."""
+    # Récupérer l'utilisateur et le pays depuis la base de données
+    user = session.query(Users).filter_by(name=name_user).first()
+    pays = session.query(Pays).filter_by(pays=name_pays).first()
+    
+    if user and pays:
+        # Mettre à jour l'utilisateur pour lui attribuer le pays
+        user.pays_id = pays.pays_id
+        session.commit()
+        print(f"L'utilisateur {name_user} a été mis à jour avec le pays {name_pays}.")
+    else:
+        print("Utilisateur ou pays non trouvé.")
+
+# Utiliser la fonction pour mettre à jour l'utilisateur toto
+mettre_a_jour_utilisateur('toto', 'france')
+mettre_a_jour_utilisateur('tata', 'espagne')
+mettre_a_jour_utilisateur('titi', 'italie')
+mettre_a_jour_utilisateur('tutu', 'allemagne')
+
+
